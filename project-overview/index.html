@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kathryn 項目總覽</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans HK', -apple-system, sans-serif;
+    background: #0f0f12;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 40px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, #f0c27a, #e8856c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 0.85em;
+    margin-bottom: 40px;
+  }
+  .mindmap {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .col {
+    flex: 1 1 280px;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .category {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.2s;
+  }
+  .category:hover { transform: translateY(-2px); }
+  .cat-header {
+    padding: 16px 20px;
+    font-size: 1.1em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cat-header .icon { font-size: 1.3em; }
+  .cat-header .count {
+    margin-left: auto;
+    font-size: 0.75em;
+    opacity: 0.7;
+    font-weight: 500;
+  }
+  .cat-arrow {
+    margin-left: 6px;
+    transition: transform 0.3s;
+    font-size: 0.7em;
+  }
+  .category.collapsed .cat-arrow { transform: rotate(-90deg); }
+  .category.collapsed .items { display: none; }
+
+  /* 語荷 - teal/gold */
+  .cat-yuhe .cat-header { background: linear-gradient(135deg, #1a4a4a, #0d3328); color: #7ee0c8; }
+  .cat-yuhe .items { background: #141e1c; }
+  .cat-yuhe { border-color: rgba(126,224,200,0.15); }
+  .cat-yuhe .item:hover { background: rgba(126,224,200,0.08); }
+
+  /* 菲凡 - warm amber */
+  .cat-feifan .cat-header { background: linear-gradient(135deg, #4a3018, #332010); color: #f0c27a; }
+  .cat-feifan .items { background: #1e1914; }
+  .cat-feifan { border-color: rgba(240,194,122,0.15); }
+  .cat-feifan .item:hover { background: rgba(240,194,122,0.08); }
+
+  /* 出版 - rose/violet */
+  .cat-publish .cat-header { background: linear-gradient(135deg, #3a1838, #251025); color: #d4a0e0; }
+  .cat-publish .items { background: #1e141c; }
+  .cat-publish { border-color: rgba(212,160,224,0.15); }
+  .cat-publish .item:hover { background: rgba(212,160,224,0.08); }
+
+  /* 個人 - blue */
+  .cat-personal .cat-header { background: linear-gradient(135deg, #182848, #101e38); color: #8ab4f8; }
+  .cat-personal .items { background: #141820; }
+  .cat-personal { border-color: rgba(138,180,248,0.15); }
+  .cat-personal .item:hover { background: rgba(138,180,248,0.08); }
+
+  .items { display: flex; flex-direction: column; }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 0.9em;
+    text-decoration: none;
+    color: #c0c0c0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.15s;
+  }
+  .item:last-child { border-bottom: none; }
+  .item .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .item .tag {
+    font-size: 0.7em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: auto;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+  .tag-done { background: rgba(100,200,130,0.15); color: #7ec88a; }
+  .tag-wip { background: rgba(240,194,122,0.15); color: #f0c27a; }
+  .tag-todo { background: rgba(255,255,255,0.06); color: #888; }
+  .tag-hot { background: rgba(232,133,108,0.15); color: #e8856c; }
+
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    color: #444;
+    font-size: 0.75em;
+  }
+  .footer a { color: #666; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>📋 Kathryn 項目總覽</h1>
+<p class="subtitle">點擊分類標題展開／收起 · 點擊項目直接打開</p>
+
+<div class="mindmap">
+
+<!-- ====== 語荷教育 ====== -->
+<div class="col">
+<div class="category cat-yuhe" id="cat-yuhe">
+  <div class="cat-header" onclick="toggle('cat-yuhe')">
+    <span class="icon">🌱</span>語荷教育
+    <span class="count">4 項</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="items">
+    <a class="item" href="file:///Users/kathrynto/Desktop/耀中Y3插班面試輔導-完整課程.html">
+      <span class="dot" style="background:#7ee0c8"></span>
+      耀中Y3面試輔導 · 課堂版
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/Desktop/語荷教育-學生評估報告.html">
+      <span class="dot" style="background:#7ee0c8"></span>
+      學生評估報告（Marcus）
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/耀中Y3插班面試輔導-—-5節網課教案/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      耀中Y3 · 5節網課教案
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/耀中Y3面试辅导-—-五节课课堂教学材料/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      耀中Y3 · 課堂教學材料
+      <span class="tag tag-done">完成</span>
+    </a>
+
+  </div>
+</div>
+</div>
+
+<!-- ====== 菲凡教育文化 ====== -->
+<div class="col">
+<div class="category cat-feifan" id="cat-feifan">
+  <div class="cat-header" onclick="toggle('cat-feifan')">
+    <span class="icon">🏛️</span>菲凡教育文化
+    <span class="count">5 項</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="items">
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/荷花鎮的早市-繪本故事營-完整課件包/">
+      <span class="dot" style="background:#f0c27a"></span>
+      荷花鎮的早市 · 繪本營
+      <span class="tag tag-wip">進行中</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/故事戲劇營-五天課程/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      故事戲劇營 · 五天課程
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/菲凡文化教育中心-開業邀請函/">
+      <span class="dot" style="background:#e8856c"></span>
+      開業邀請函
+      <span class="tag tag-todo">待處理</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/菲凡暑期课程排班表.html">
+      <span class="dot" style="background:#f0c27a"></span>
+      暑期課程排班表
+      <span class="tag tag-wip">進行中</span>
+    </a>
+    <a class="item" href="#">
+      <span class="dot" style="background:#7ee0c8"></span>
+      教師可用時間圖
+      <span class="tag tag-done">完成</span>
+    </a>
+  </div>
+</div>
+
+<!-- ====== 出版創作 ====== -->
+<div class="category cat-publish" id="cat-publish">
+  <div class="cat-header" onclick="toggle('cat-publish')">
+    <span class="icon">📖</span>出版／創作
+    <span class="count">3 項</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="items">
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/《丢戒指》小說改AI視頻-—-前期工作/">
+      <span class="dot" style="background:#f0c27a"></span>
+      《丢戒指》AI影片 · 前期
+      <span class="tag tag-wip">進行中</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/《丢戒指》关键帧重命名与验收/">
+      <span class="dot" style="background:#e8856c"></span>
+      《丢戒指》關鍵幀驗收
+      <span class="tag tag-todo">待驗收</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/Desktop/丢戒指/《丢戒指》视频提示词.docx">
+      <span class="dot" style="background:#c0c0c0"></span>
+      出版社投稿
+      <span class="tag tag-todo">未開始</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- ====== 個人 ====== -->
+<div class="col">
+<div class="category cat-personal" id="cat-personal">
+  <div class="cat-header" onclick="toggle('cat-personal')">
+    <span class="icon">🧘</span>個人
+    <span class="count">5 項</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="items">
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/美国签证-DS-160-申请：杜薇-+-林靜荷/">
+      <span class="dot" style="background:#e8856c"></span>
+      美國簽證 DS-160
+      <span class="tag tag-hot">緊急</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/Kathryn-自我疗愈课程/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      自我療癒課程
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/Kathryn-财富信念与增收实战课程/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      財富信念與增收
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/Kathryn-课室管理指南/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      課室管理指南
+      <span class="tag tag-done">完成</span>
+    </a>
+    <a class="item" href="file:///Users/kathrynto/.cola/outputs/穿过沼泽地-配图视频/">
+      <span class="dot" style="background:#7ee0c8"></span>
+      穿過沼澤地 · 配圖視頻
+      <span class="tag tag-done">完成</span>
+    </a>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+  🟢 完成 &nbsp; 🟠 進行中 &nbsp; ⚪ 待處理 &nbsp; 🔴 緊急<br>
+  最後更新：2026-05-24 · 雙擊打開檔案
+</div>
+
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+</script>
+</body>
+</html>
