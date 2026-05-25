@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>語荷教育 · 試後活動方案</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700&family=Noto+Serif+HK:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans HK', 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+    background: #f5f2eb;
+    color: #2a2a2a;
+    line-height: 1.75;
+    font-size: 12px;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 48px 56px;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+  }
+
+  /* ═══ HEADER ═══ */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid #1a2a4a;
+  }
+
+  .brand {
+    font-family: 'Noto Serif HK', serif;
+    font-size: 11px;
+    color: #c8a84e;
+    letter-spacing: 6px;
+    margin-bottom: 6px;
+  }
+
+  .title {
+    font-family: 'Noto Serif HK', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a2a4a;
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #6a5a4a;
+    letter-spacing: 2px;
+  }
+
+  /* ═══ SECTIONS ═══ */
+  h2 {
+    font-family: 'Noto Serif HK', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a2a4a;
+    margin: 36px 0 14px;
+    padding-left: 14px;
+    border-left: 3px solid #c8a84e;
+    letter-spacing: 2px;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a2a4a;
+    margin: 20px 0 8px;
+  }
+
+  p { margin: 8px 0; color: #3a3a3a; }
+
+  /* ═══ TIMING BADGE ═══ */
+  .timing-badge {
+    display: inline-block;
+    background: #1a2a4a;
+    color: #f0e6c8;
+    padding: 4px 16px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin: 20px 0 8px;
+  }
+
+  /* ═══ ADVANTAGE GRID ═══ */
+  .adv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+
+  .adv-card {
+    background: #faf7f0;
+    border-left: 3px solid #c8a84e;
+    padding: 14px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .adv-card .adv-icon { font-size: 18px; margin-bottom: 4px; }
+  .adv-card .adv-title { font-weight: 700; font-size: 12px; color: #1a2a4a; margin-bottom: 2px; }
+  .adv-card .adv-desc { font-size: 10.5px; color: #6a5a4a; line-height: 1.5; }
+
+  /* ═══ ACTIVITY CARDS ═══ */
+  .activity {
+    background: #faf7f0;
+    border: 1px solid #e8e2d8;
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin: 16px 0;
+    position: relative;
+  }
+
+  .activity .act-num {
+    position: absolute;
+    top: -12px; left: 16px;
+    background: #c8a84e;
+    color: white;
+    font-weight: 700;
+    font-size: 10px;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    letter-spacing: 1px;
+  }
+
+  .activity .act-title {
+    font-family: 'Noto Serif HK', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2a4a;
+    margin-bottom: 4px;
+    padding-top: 6px;
+  }
+
+  .activity .act-tagline {
+    font-size: 11px;
+    color: #c8a84e;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .activity .act-meta {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    font-size: 10.5px; color: #8a7a5a;
+    margin: 10px 0;
+  }
+
+  .activity .act-meta span { background: white; padding: 3px 10px; border-radius: 3px; }
+
+  .activity .act-flow {
+    font-size: 10.5px;
+    color: #5a4a3a;
+    line-height: 1.7;
+    margin-top: 8px;
+    padding-left: 12px;
+    border-left: 2px solid rgba(200,168,78,0.3);
+  }
+
+  .activity .act-flow strong { color: #1a2a4a; }
+
+  /* ═══ PRICING TABLE ═══ */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+  }
+
+  .pricing-table th {
+    background: #1a2a4a;
+    color: #f0e6c8;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: left;
+  }
+
+  .pricing-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e8e2d8;
+    font-size: 11px;
+    color: #3a3a3a;
+  }
+
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table .price { font-weight: 700; color: #1a2a4a; text-align: right; }
+
+  /* ═══ QUOTE ═══ */
+  .quote-box {
+    background: #1a2a4a;
+    color: #c8a84e;
+    padding: 20px 28px;
+    border-radius: 6px;
+    margin: 28px 0 20px;
+    text-align: center;
+    font-family: 'Noto Serif HK', serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    line-height: 1.8;
+  }
+
+  .quote-box .author {
+    font-size: 11px;
+    color: rgba(200,168,78,0.7);
+    margin-top: 6px;
+  }
+
+  /* ═══ CONTACT ═══ */
+  .contact-bar {
+    display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;
+    font-size: 11px; color: #6a5a4a;
+    padding: 16px 0;
+    border-top: 1px solid #e8e2d8;
+    margin-top: 20px;
+  }
+
+  .contact-bar strong { color: #1a2a4a; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ═══ PRINT ═══ */
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; max-width: none; padding: 32px 40px; }
+    .activity, .adv-card { break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 24px 20px; }
+    .adv-grid { grid-template-columns: 1fr; }
+    .title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <div class="brand">語荷教育</div>
+  <div class="title">試後活動方案</div>
+  <div class="subtitle">朗誦 · 口語表達 · 戲劇體驗</div>
+</div>
+
+<!-- ═══ TIMING ═══ -->
+<div style="text-align:center;">
+  <div class="timing-badge">2026 年 5 月至 7 月 · 試後活動黃金檔期</div>
+</div>
+
+<p style="text-align:center; color:#6a5a4a; max-width:600px; margin:8px auto 0;">
+考試結束到放暑假之間，學生需要輕鬆有趣又有學習價值的活動。<br>
+以下方案專為香港小學設計——每項只需 1–2 小時，學校零準備，導師一手包辦。
+</p>
+
+<!-- ═══ WHY ME ═══ -->
+<h2>為什麼選我？</h2>
+
+<div class="adv-grid">
+  <div class="adv-card">
+    <div class="adv-icon">🎭</div>
+    <div class="adv-title">戲劇教育專業</div>
+    <div class="adv-desc">不是純朗誦老師，也不是純戲劇導師——是兩樣都能教的稀有組合。用戲劇方法教朗誦，學生學得更快、記得更牢。</div>
+  </div>
+  <div class="adv-card">
+    <div class="adv-icon">🗣️</div>
+    <div class="adv-title">普粵雙語</div>
+    <div class="adv-desc">普通話朗誦 + 粵語口才，兩種語言都能帶。學校只需要一位導師，不用分開請。</div>
+  </div>
+  <div class="adv-card">
+    <div class="adv-icon">🏫</div>
+    <div class="adv-title">學校實戰經驗</div>
+    <div class="adv-desc">多次帶學生參加大型校內外演出，知道什麼方案在學校現場行得通、什麼只是紙上好看。</div>
+  </div>
+  <div class="adv-card">
+    <div class="adv-icon">🎯</div>
+    <div class="adv-title">互動式課堂</div>
+    <div class="adv-desc">不講PPT、不照稿讀。所有活動都是學生動手、動口、動身體——玩著學，學完還有成果可以展示。</div>
+  </div>
+  <div class="adv-card">
+    <div class="adv-icon">📋</div>
+    <div class="adv-title">學校零負擔</div>
+    <div class="adv-desc">導師自備所有教材、道具、音響。學校只需提供場地和學生。活動結束後發送活動照片/影片給學校存檔。</div>
+  </div>
+  <div class="adv-card">
+    <div class="adv-icon">🏆</div>
+    <div class="adv-title">朗誦比賽預備</div>
+    <div class="adv-desc">如有需要，可為校隊提供朗誦節賽前集訓。普通話組、粵語組均可，含選材建議 + 技巧打磨 + 模擬比賽。</div>
+  </div>
+</div>
+
+<!-- ═══ MARKET INSIGHT ═══ -->
+<h2>現在是好時機</h2>
+
+<p>香港學校每年 5–7 月為「試後活動」高峰期。根據教育局指引，試後時間應安排「多元化的學習經歷」。2025/26 學年香港學校戲劇節、普通話講故事比賽、校際朗誦節等活動持續推高學校對朗誦及口語表達導師的需求。</p>
+
+<p>目前市場上多數朗誦培訓為長期班（8–12 節），試後短期體驗式工作坊相對空白——這是切入點。</p>
+
+<!-- ═══ ACTIVITIES ═══ -->
+<h2>活動選單（四選一或自由組合）</h2>
+
+<div class="activity">
+  <div class="act-num">1</div>
+  <div class="act-title">「聲音魔法師」—— 朗誦體驗工作坊</div>
+  <div class="act-tagline">用遊戲學朗誦，零基礎也能享受</div>
+  <div class="act-meta">
+    <span>⏱ 1.5 小時</span>
+    <span>👥 全級／全班（最多 120 人）</span>
+    <span>🎯 P1–P6</span>
+    <span>📋 禮堂／活動室</span>
+  </div>
+  <div class="act-flow">
+    <strong>① 熱身遊戲（15 分鐘）</strong>——「聲音傳遞」：全班圍圈，一個字傳下去，不能變形。笑聲中學生發現：原來我的聲音是可以控制的。<br>
+    <strong>② 聲音實驗室（25 分鐘）</strong>——高/低、快/慢、大/小聲。用身體感受聲音的形狀。選一首簡短兒歌或古詩，全班探索不同演繹方式。<br>
+    <strong>③ 分組挑戰（30 分鐘）</strong>——小組自選演繹方式，練習 10 分鐘，上台表演。導師即時回饋。<br>
+    <strong>④ 全班大合誦（15 分鐘）</strong>——最後全班一起來一遍完整版，錄影留念。<br>
+    <strong>🎁 學校獲得</strong>：活動照片 + 全班合誦影片（24 小時內發送）
+  </div>
+</div>
+
+<div class="activity">
+  <div class="act-num">2</div>
+  <div class="act-title">「三分鐘小主播」—— 口語表達速成班</div>
+  <div class="act-tagline">一套框架，讓孩子三分鐘說清楚一件事</div>
+  <div class="act-meta">
+    <span>⏱ 1.5 小時</span>
+    <span>👥 一班（最多 40 人）</span>
+    <span>🎯 P3–P6</span>
+    <span>📋 課室</span>
+  </div>
+  <div class="act-flow">
+    <strong>① 記者熱身（15 分鐘）</strong>——「一句話頭條」：每人用一句話說出今天最有趣的事。導師示範、學生模仿。<br>
+    <strong>② 三層框架教學（20 分鐘）</strong>——①我看到了什麼（事實）→ ②我覺得怎樣（感受）→ ③我為什麼這樣想（理由）。用生活化例子示範三層結構。<br>
+    <strong>③ 仿真新聞台（35 分鐘）</strong>——兩人一組，一人做記者、一人做受訪者，用三層框架互相訪問。導師輪流指導。<br>
+    <strong>④ 小主播錄影（15 分鐘）</strong>——每人 30 秒「天氣報告」或「新聞快訊」錄影。回家可以給家長看。<br>
+    <strong>🎁 學校獲得</strong>：每位學生的 30 秒主播影片 + 三層框架口訣卡（PDF）
+  </div>
+</div>
+
+<div class="activity">
+  <div class="act-num">3</div>
+  <div class="act-title">「故事劇場」—— 戲劇體驗活動</div>
+  <div class="act-tagline">全班一起把一個故事演出來</div>
+  <div class="act-meta">
+    <span>⏱ 2 小時</span>
+    <span>👥 一班（最多 35 人）</span>
+    <span>🎯 P1–P6（按年級選故事）</span>
+    <span>📋 活動室／禮堂</span>
+  </div>
+  <div class="act-flow">
+    <strong>① 故事講述（15 分鐘）</strong>——導師用戲劇化講述把故事活現。學生邊聽邊記住關鍵情節。<br>
+    <strong>② 角色分配 + 定格練習（25 分鐘）</strong>——全班分成小組，每組負責一個場景。用「定格畫面」建立角色和場景。<br>
+    <strong>③ 即興排練（40 分鐘）</strong>——導師到每組指導：加入對白、動作、情緒。不需要背稿，用自己的話演出來。<br>
+    <strong>④ 串演 + 大結局（30 分鐘）</strong>——各組按故事順序上台串演，全班合力完成一個完整故事。最後一起歡呼謝幕。<br>
+    <strong>🎁 學校獲得</strong>：完整演出影片 + 幕後花絮照片
+  </div>
+</div>
+
+<div class="activity">
+  <div class="act-num">4</div>
+  <div class="act-title">「朗誦快閃」—— 集誦速成挑戰</div>
+  <div class="act-tagline">一節課練出一首集誦，放學前在操場快閃演出</div>
+  <div class="act-meta">
+    <span>⏱ 1 小時</span>
+    <span>👥 全級（最多 150 人）</span>
+    <span>🎯 P1–P6</span>
+    <span>📋 禮堂 + 操場</span>
+  </div>
+  <div class="act-flow">
+    <strong>① 選詩 + 示範（5 分鐘）</strong>——導師演繹一首短詩，學生感受節奏和情感。可選普通話或粵語。<br>
+    <strong>② 分段練習（20 分鐘）</strong>——把詩分成四段，導師逐句帶讀。加入動作和簡單走位。<br>
+    <strong>③ 合練（20 分鐘）</strong>——四段組合，加入強弱變化、輪誦、合誦。全班找到節奏。<br>
+    <strong>④ 快閃演出（10 分鐘）</strong>——走到操場或大堂，當著其他年級師生面前來一次。掌聲就是最好的回饋。<br>
+    <strong>🎁 學校獲得</strong>：快閃演出影片（可上載學校社交媒體）
+  </div>
+</div>
+
+<!-- ═══ ADD-ON ═══ -->
+<h2>附加選項</h2>
+
+<div class="activity">
+  <div class="act-num">+</div>
+  <div class="act-title">朗誦節賽前集訓（附加服務）</div>
+  <div class="act-tagline">為校隊度身設計，爭取最佳成績</div>
+  <div class="act-meta">
+    <span>⏱ 每節 1.5 小時 × 2–4 節</span>
+    <span>👥 校隊（2–10 人）</span>
+    <span>🎯 P1–P6</span>
+  </div>
+  <div class="act-flow">
+    <strong>包含：</strong>誦材分析與選材建議 → 發音技巧打磨 → 台風與身體語言訓練 → 模擬比賽 + 評判式回饋<br>
+    普通話組或粵語組均可。導師經驗涵蓋校際朗誦節多個組別。
+  </div>
+</div>
+
+<!-- ═══ PRICING ═══ -->
+<h2>收費參考</h2>
+
+<table class="pricing-table">
+  <tr><th>方案</th><th>時長</th><th>建議人數</th><th class="price">費用</th></tr>
+  <tr><td>① 聲音魔法師 · 朗誦工作坊</td><td>1.5 小時</td><td>最多 120 人</td><td class="price">HK$2,500</td></tr>
+  <tr><td>② 三分鐘小主播 · 口語速成</td><td>1.5 小時</td><td>最多 40 人</td><td class="price">HK$2,500</td></tr>
+  <tr><td>③ 故事劇場 · 戲劇體驗</td><td>2 小時</td><td>最多 35 人</td><td class="price">HK$3,200</td></tr>
+  <tr><td>④ 朗誦快閃 · 集誦速成</td><td>1 小時</td><td>最多 150 人</td><td class="price">HK$1,800</td></tr>
+  <tr><td>+ 朗誦節賽前集訓</td><td>1.5 小時 × N</td><td>校隊 2–10 人</td><td class="price">每節 HK$1,500</td></tr>
+  <tr><td style="background:#faf7f0;font-size:10px;color:#6a5a4a;" colspan="4">💡 同一天預訂兩場或以上享有九折。學校採購 $5,001–$50,000 只需 2 份口頭報價。</td></tr>
+</table>
+
+<!-- ═══ QUOTE ═══ -->
+<div class="quote-box">
+  「每一個孩子都值得被聽見。<br>我的工作不是教他們背稿——是幫他們找到自己的聲音。」<br>
+  <div class="author">—— 杜薇（Kathryn To）</div>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="contact-bar">
+  <span>🏛️ <strong>語荷教育</strong></span>
+  <span>👩‍🏫 <strong>杜薇（Kathryn To）</strong></span>
+  <span>📧 <strong>（待填）</strong></span>
+  <span>📱 <strong>（待填）</strong></span>
+</div>
+
+<div class="footer-note">
+  戲劇教育 × 朗誦培訓 · 普粵雙語 · 學校到校服務
+</div>
+
+</div>
+
+</body>
+</html>

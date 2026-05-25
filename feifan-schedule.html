@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>菲凡文化教育中心 · 暑期每週排課表</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Noto Sans HK", "PingFang HK", sans-serif;
+    background: #f4f2ed;
+    padding: 24px;
+    font-size: 13px;
+  }
+  h1 { text-align: center; font-size: 22px; color: #1a2a4a; margin-bottom: 4px; letter-spacing: 2px; }
+  .sub { text-align: center; color: #8a7a5a; font-size: 12px; margin-bottom: 6px; }
+  .note { text-align: center; color: #c8a84e; font-size: 11px; margin-bottom: 18px; font-weight: 600; }
+
+  .schedule {
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  th {
+    background: #1a2a4a;
+    color: #f0e6c8;
+    padding: 12px 10px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border: 1px solid #0d1a30;
+  }
+  th.time-col { width: 110px; background: #c8a84e; color: #1a2a4a; }
+
+  td {
+    border: 1px solid #d5cfc4;
+    padding: 12px 14px;
+    vertical-align: middle;
+    line-height: 1.5;
+  }
+  td.time-label {
+    background: #faf7f0;
+    color: #5a4a3a;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .course-name { font-weight: 700; font-size: 14px; letter-spacing: 1px; margin-bottom: 2px; }
+  .teacher-name { font-size: 11px; opacity: 0.8; }
+  .room-tag { font-size: 10px; color: #aaa; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Colors by teacher */
+  .c-dandan { background: #fff8e1; border-left: 4px solid #f9a825; }
+  .c-dandan .course-name { color: #e65100; }
+  .c-duwei { background: #e8f5e9; border-left: 4px solid #43a047; }
+  .c-duwei .course-name { color: #2e7d32; }
+  .c-shiyi { background: #e3f2fd; border-left: 4px solid #1e88e5; }
+  .c-shiyi .course-name { color: #1565c0; }
+  .c-liaoyu { background: #fce4ec; border-left: 4px solid #e53935; }
+  .c-liaoyu .course-name { color: #c62828; }
+  .c-open { background: #f5f5f5; border-left: 4px dashed #bbb; }
+  .c-open .course-name { color: #999; }
+
+  .day-strip {
+    max-width: 900px;
+    margin: 0 auto 12px;
+    display: flex;
+    gap: 0;
+  }
+  .day-box {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    background: #1a2a4a;
+    color: #f0e6c8;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-right: 1px solid #2a3a5a;
+  }
+  .day-box:last-child { border-right: none; }
+  .day-box.sat { background: #c8a84e; color: #1a2a4a; }
+
+  .legend {
+    display: flex; gap: 16px; justify-content: center; margin: 16px 0; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+  .legend-dot { width: 16px; height: 16px; border-radius: 3px; }
+
+  .showcase-note {
+    max-width: 900px; margin: 16px auto;
+    background: #1a2a4a; color: #c8a84e; padding: 10px 20px;
+    border-radius: 4px; text-align: center; font-size: 13px; letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  @media print {
+    body { background: white; padding: 8px; }
+    .schedule { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>菲凡文化教育中心</h1>
+<div class="sub">2026 暑期課程 · 每週排課表（六天制）</div>
+<div class="note">每門課固定時段 · 週一至週六 · 每節 45 分鐘 · 兩間教室並行</div>
+
+<div class="day-strip">
+  <div class="day-box">週一</div>
+  <div class="day-box">週二</div>
+  <div class="day-box">週三</div>
+  <div class="day-box">週四</div>
+  <div class="day-box">週五</div>
+  <div class="day-box sat">週六 · 展示日</div>
+</div>
+
+<table class="schedule">
+<thead>
+<tr>
+  <th class="time-col">時間</th>
+  <th>教室 A</th>
+  <th>教室 B</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td class="time-label">9:00 – 9:45</td>
+  <td class="c-dandan">
+    <div class="room-tag">教室 A</div>
+    <div class="course-name">朗誦精進營</div>
+    <div class="teacher-name">丹丹</div>
+  </td>
+  <td class="c-duwei">
+    <div class="room-tag">教室 B</div>
+    <div class="course-name">中文繪本故事營 · 幼兒班</div>
+    <div class="teacher-name">杜薇</div>
+  </td>
+</tr>
+
+<tr>
+  <td class="time-label">10:00 – 10:45</td>
+  <td class="c-shiyi">
+    <div class="room-tag">教室 A</div>
+    <div class="course-name">教育戲劇營 Level 1</div>
+    <div class="teacher-name">詩逸</div>
+  </td>
+  <td class="c-liaoyu">
+    <div class="room-tag">教室 B</div>
+    <div class="course-name">童聲飛揚歌唱班 · 幼兒</div>
+    <div class="teacher-name">廖宇</div>
+  </td>
+</tr>
+
+<tr>
+  <td class="time-label">11:00 – 11:45</td>
+  <td class="c-duwei">
+    <div class="room-tag">教室 A</div>
+    <div class="course-name">中文繪本故事營 · 低小班</div>
+    <div class="teacher-name">杜薇</div>
+  </td>
+  <td class="c-shiyi">
+    <div class="room-tag">教室 B</div>
+    <div class="course-name">幼兒中國文化體驗班</div>
+    <div class="teacher-name">詩逸</div>
+  </td>
+</tr>
+
+<tr>
+  <td class="time-label">14:00 – 14:45</td>
+  <td class="c-duwei">
+    <div class="room-tag">教室 A</div>
+    <div class="course-name">故事戲劇營</div>
+    <div class="teacher-name">杜薇</div>
+  </td>
+  <td class="c-shiyi">
+    <div class="room-tag">教室 B</div>
+    <div class="course-name">教育戲劇營 Level 2</div>
+    <div class="teacher-name">詩逸</div>
+  </td>
+</tr>
+
+<tr>
+  <td class="time-label">15:00 – 15:45</td>
+  <td class="c-liaoyu">
+    <div class="room-tag">教室 A</div>
+    <div class="course-name">童聲飛揚歌唱班 · 初小</div>
+    <div class="teacher-name">廖宇</div>
+  </td>
+  <td class="c-duwei">
+    <div class="room-tag">教室 B</div>
+    <div class="course-name">中文繪本故事營 · 高小班</div>
+    <div class="teacher-name">杜薇</div>
+  </td>
+</tr>
+
+<tr>
+  <td class="time-label">16:00 – 16:45</td>
+  <td class="c-shiyi">
+    <div class="room-tag">教室 A</div>
+    <div class="course-name">教育戲劇營 Level 3</div>
+    <div class="teacher-name">詩逸</div>
+  </td>
+  <td class="c-dandan">
+    <div class="room-tag">教室 B</div>
+    <div class="course-name">朗誦精進營 · B 班</div>
+    <div class="teacher-name">丹丹</div>
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="showcase-note">
+  ✦ 週六每節課最後 15 分鐘為展示時間，邀請家長進教室觀賞作品 ✦
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#fff8e1;border:1px solid #f9a825"></div> 丹丹 · 朗誦精進營（A+B 班）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e8f5e9;border:1px solid #43a047"></div> 杜薇 · 繪本 + 戲劇（4門）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e3f2fd;border:1px solid #1e88e5"></div> 詩逸 · 教育戲劇 + 中國文化（4門）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fce4ec;border:1px solid #e53935"></div> 廖宇 · 歌唱班（2門）</div>
+</div>
+
+<div style="max-width:900px;margin:12px auto;text-align:center;color:#8a7a5a;font-size:12px;">
+  <strong>12 門課全部排定 · 兩間教室滿載</strong><br>
+  每門課連上六天。週六最後 15 分鐘邀請家長進教室觀賞作品。
+</div>
+
+</body>
+</html>
