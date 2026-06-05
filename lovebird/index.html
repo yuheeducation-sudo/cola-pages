@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>小牡丹 · 家庭寵物</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+  * { font-family: 'Noto Sans TC', sans-serif; }
+  body {
+    background: linear-gradient(180deg, #e0f2fe 0%, #f0fdf4 50%, #fefce8 100%);
+    min-height: 100vh; margin: 0;
+  }
+  .pet { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+  @keyframes eat { 0% { transform: scale(1); } 30% { transform: scale(1.08); } 60% { transform: scale(0.95); } 100% { transform: scale(1); } }
+  @keyframes chirp { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } 80% { transform: rotate(-4deg); } }
+  @keyframes hop { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-18px); } 60% { transform: translateY(-5px); } 80% { transform: translateY(-12px); } }
+  .eating { animation: eat 0.5s ease-in-out; }
+  .playing { animation: hop 0.7s ease-in-out; }
+  .sleeping-anim { animation: none; transform: translateY(3px) scale(0.94); filter: brightness(0.8) saturate(0.7); }
+  .bar-fill { transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+  .emoji-pop { animation: pop 0.5s ease-out forwards; }
+  @keyframes pop { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-60px) scale(1.5); } }
+  button:active { transform: scale(0.9); }
+  .confetti { position: fixed; pointer-events: none; animation: fall 1.5s ease-in forwards; }
+  @keyframes fall { 0% { opacity: 1; transform: translateY(-20px) rotate(0deg); } 100% { opacity: 0; transform: translateY(100vh) rotate(720deg); } }
+  input:focus { outline: 2px solid #22c55e; outline-offset: 2px; }
+
+  /* Bird CSS art */
+  .bird-body {
+    width: 100px; height: 90px;
+    background: linear-gradient(180deg, #22c55e 0%, #16a34a 40%, #fbbf24 70%, #f59e0b 100%);
+    border-radius: 50% 50% 45% 45%;
+    position: relative;
+  }
+  .bird-head {
+    width: 55px; height: 50px;
+    background: linear-gradient(180deg, #f87171 0%, #ef4444 50%, #fbbf24 100%);
+    border-radius: 50%;
+    position: absolute; top: -22px; left: 50%; transform: translateX(-50%);
+    border: 2px solid #dc2626;
+  }
+  .bird-eye {
+    width: 12px; height: 14px;
+    background: white; border-radius: 50%;
+    position: absolute; top: 12px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .bird-pupil {
+    width: 6px; height: 7px;
+    background: #1a1a1a; border-radius: 50%;
+  }
+  .bird-beak {
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #f59e0b;
+    position: absolute; top: 24px; left: 50%; transform: translateX(-50%);
+  }
+  .bird-wing {
+    width: 40px; height: 30px;
+    background: linear-gradient(180deg, #15803d 0%, #166534 100%);
+    border-radius: 60% 40% 50% 50%;
+    position: absolute; top: 14px;
+  }
+  .bird-tail {
+    position: absolute; bottom: -5px; left: 50%; transform: translateX(-40%);
+  }
+  .tail-feather {
+    width: 4px; height: 40px;
+    background: linear-gradient(180deg, #166534, #15803d, #f59e0b);
+    border-radius: 2px;
+    position: absolute; bottom: 0; transform-origin: bottom center;
+  }
+  .bird-feet {
+    position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 16px;
+  }
+  .bird-foot {
+    width: 3px; height: 10px; background: #78716c; border-radius: 2px;
+  }
+  .bird-foot::after {
+    content: ''; position: absolute; bottom: 0; left: -4px;
+    width: 11px; height: 3px; background: #78716c; border-radius: 2px;
+  }
+  .cheek-blush {
+    width: 8px; height: 5px; background: #fca5a5;
+    border-radius: 50%; position: absolute;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body class="flex flex-col items-center justify-center p-4 min-h-screen">
+
+<div class="text-center mb-4">
+  <h1 class="text-3xl font-bold text-green-800" style="font-family: 'Noto Sans TC', sans-serif;">🦜 小牡丹</h1>
+  <p id="petNameDisplay" class="text-gray-500 text-sm mt-1 cursor-pointer hover:text-green-600 transition">點擊改名</p>
+</div>
+
+<div id="nameInput" class="hidden mb-4 flex gap-2">
+  <input type="text" id="nameField" maxlength="6" placeholder="幫小鳥改名..."
+    class="px-4 py-2 rounded-full border-2 border-green-300 text-center text-lg w-44 focus:border-green-500 transition">
+  <button onclick="saveName()" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition font-medium">OK</button>
+</div>
+
+<!-- Bird Pet -->
+<div class="mb-6 cursor-pointer" onclick="petPet()" id="pet">
+  <div class="bird-body mx-auto relative" style="transform: scale(1.5);">
+    <!-- Tail feathers -->
+    <div class="bird-tail">
+      <div class="tail-feather" style="transform: rotate(-20deg); left: -8px;"></div>
+      <div class="tail-feather" style="left: -2px;"></div>
+      <div class="tail-feather" style="transform: rotate(20deg); left: 4px;"></div>
+    </div>
+    <!-- Wings -->
+    <div class="bird-wing" style="left: -10px; transform: rotate(-5deg);"></div>
+    <div class="bird-wing" style="right: -10px; transform: rotate(5deg);"></div>
+    <!-- Head -->
+    <div class="bird-head">
+      <!-- Eye left -->
+      <div class="bird-eye" style="left: 8px;">
+        <div class="bird-pupil" id="leftPupil"></div>
+      </div>
+      <!-- Eye right -->
+      <div class="bird-eye" style="right: 8px;">
+        <div class="bird-pupil" id="rightPupil"></div>
+      </div>
+      <!-- Beak -->
+      <div class="bird-beak" id="beak"></div>
+      <!-- Blush -->
+      <div class="cheek-blush" id="leftBlush" style="left: 4px; top: 20px;"></div>
+      <div class="cheek-blush" id="rightBlush" style="right: 4px; top: 20px;"></div>
+    </div>
+    <!-- Feet -->
+    <div class="bird-feet">
+      <div class="bird-foot" style="position:relative;"></div>
+      <div class="bird-foot" style="position:relative;"></div>
+    </div>
+  </div>
+  <!-- Zzz -->
+  <div id="zzzContainer" class="hidden text-center mt-2">
+    <span class="text-2xl">💤💤💤</span>
+  </div>
+</div>
+
+<div id="floatingEmoji" class="fixed pointer-events-none text-3xl hidden"></div>
+
+<!-- Stats -->
+<div class="w-full max-w-sm space-y-3 mb-6">
+  <div>
+    <div class="flex justify-between text-sm mb-1"><span>🌾 飽足感</span><span id="hungerVal">100%</span></div>
+    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden"><div id="hungerBar" class="bar-fill h-full rounded-full bg-gradient-to-r from-yellow-400 to-orange-500" style="width:100%"></div></div>
+  </div>
+  <div>
+    <div class="flex justify-between text-sm mb-1"><span>😊 快樂度</span><span id="happinessVal">100%</span></div>
+    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden"><div id="happinessBar" class="bar-fill h-full rounded-full bg-gradient-to-r from-pink-400 to-rose-500" style="width:100%"></div></div>
+  </div>
+  <div>
+    <div class="flex justify-between text-sm mb-1"><span>⚡ 精力</span><span id="energyVal">100%</span></div>
+    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden"><div id="energyBar" class="bar-fill h-full rounded-full bg-gradient-to-r from-sky-400 to-blue-500" style="width:100%"></div></div>
+  </div>
+</div>
+
+<!-- Actions -->
+<div class="flex flex-wrap gap-3 justify-center max-w-sm">
+  <button onclick="feedPet()" class="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-2xl text-lg font-bold shadow-lg shadow-yellow-200 transition flex items-center gap-2">
+    🌾 餵食
+  </button>
+  <button onclick="playPet()" class="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-2xl text-lg font-bold shadow-lg shadow-pink-200 transition flex items-center gap-2">
+    🎵 唱歌
+  </button>
+  <button onclick="sleepPet()" class="bg-indigo-400 hover:bg-indigo-500 text-white px-6 py-3 rounded-2xl text-lg font-bold shadow-lg shadow-indigo-200 transition flex items-center gap-2">
+    😴 睡覺
+  </button>
+</div>
+
+<div id="statusMsg" class="mt-4 text-center text-gray-500 text-sm"></div>
+
+<script>
+let pet = { name: '小牡丹', hunger: 100, happiness: 100, energy: 100, age: 0, sleeping: false };
+const saved = localStorage.getItem('lovebirdPet');
+if (saved) {
+  const parsed = JSON.parse(saved);
+  pet = { ...pet, ...parsed };
+  const awayMins = (Date.now() - (parsed.lastTick || Date.now())) / 60000;
+  if (!pet.sleeping) { pet.hunger = Math.max(0, pet.hunger - awayMins * 1.5); pet.happiness = Math.max(0, pet.happiness - awayMins * 1.0); pet.energy = Math.max(0, pet.energy - awayMins * 0.5); }
+  else { pet.energy = Math.min(100, pet.energy + awayMins * 3); pet.hunger = Math.max(0, pet.hunger - awayMins * 0.5); }
+  pet.age += awayMins; pet.sleeping = false;
+  document.getElementById('petNameDisplay').textContent = pet.name;
+}
+function save() { pet.lastTick = Date.now(); localStorage.setItem('lovebirdPet', JSON.stringify(pet)); }
+function updateUI() {
+  document.getElementById('hungerVal').textContent = Math.round(pet.hunger) + '%';
+  document.getElementById('happinessVal').textContent = Math.round(pet.happiness) + '%';
+  document.getElementById('energyVal').textContent = Math.round(pet.energy) + '%';
+  document.getElementById('hungerBar').style.width = pet.hunger + '%';
+  document.getElementById('happinessBar').style.width = pet.happiness + '%';
+  document.getElementById('energyBar').style.width = pet.energy + '%';
+  const zzz = document.getElementById('zzzContainer');
+  const petEl = document.getElementById('pet');
+  const leftBlush = document.getElementById('leftBlush');
+  const rightBlush = document.getElementById('rightBlush');
+  petEl.classList.remove('sleeping-anim');
+  zzz.classList.add('hidden');
+  if (pet.sleeping) {
+    petEl.classList.add('sleeping-anim'); zzz.classList.remove('hidden');
+    leftBlush.style.opacity = '0.2'; rightBlush.style.opacity = '0.2';
+  } else if (pet.hunger < 20) {
+    leftBlush.style.opacity = '0.2'; rightBlush.style.opacity = '0.2';
+  } else if (pet.happiness > 80) {
+    leftBlush.style.opacity = '0.8'; rightBlush.style.opacity = '0.8';
+  } else {
+    leftBlush.style.opacity = '0.5'; rightBlush.style.opacity = '0.5';
+  }
+  const ageMins = Math.floor(pet.age), h = Math.floor(ageMins/60), m = ageMins%60;
+  let status = pet.name + ' · ' + (h>0 ? h+'小時'+m+'分鐘大' : m+'分鐘大');
+  if (pet.sleeping) status += ' · 😴 睡覺中...';
+  else if (pet.hunger < 20) status += ' · 🥺 好餓...';
+  else if (pet.happiness < 20) status += ' · 😢 不開心...';
+  else if (pet.energy < 20) status += ' · 😴 好累...';
+  else if (pet.happiness > 90) status += ' · 🎵 好開心！';
+  document.getElementById('statusMsg').textContent = status;
+}
+function popEmoji(e) {
+  const el = document.getElementById('floatingEmoji');
+  el.textContent=e; el.className='fixed pointer-events-none text-3xl emoji-pop';
+  el.style.cssText='left:50%;top:45%;display:block';
+  setTimeout(()=>el.style.display='none',500);
+}
+function spawnConfetti() {
+  const emojis=['🌟','✨','💖','🎉','💕','⭐','💫','🎀','🌻','🦜'];
+  for(let i=0;i<12;i++) setTimeout(()=>{
+    const el=document.createElement('div');
+    el.className='confetti'; el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.cssText='position:fixed;pointer-events:none;animation:fall 1.5s ease-in forwards;left:'+Math.random()*100+'%;top:-20px;font-size:'+(16+Math.random()*20)+'px;animation-duration:'+(1+Math.random()*2)+'s';
+    document.body.appendChild(el); setTimeout(()=>el.remove(),2500);
+  },i*80);
+}
+function feedPet() {
+  if(pet.sleeping)return; if(pet.hunger>=95){popEmoji('😅');return;}
+  pet.hunger=Math.min(100,pet.hunger+25); pet.energy=Math.max(0,pet.energy-3); pet.happiness=Math.min(100,pet.happiness+5);
+  document.getElementById('pet').classList.add('eating');
+  setTimeout(()=>document.getElementById('pet').classList.remove('eating'),500);
+  popEmoji('🌾'); save(); updateUI();
+}
+function playPet() {
+  if(pet.sleeping)return; if(pet.energy<10){popEmoji('😫');return;}
+  pet.happiness=Math.min(100,pet.happiness+20); pet.energy=Math.max(0,pet.energy-15); pet.hunger=Math.max(0,pet.hunger-8);
+  document.getElementById('pet').classList.add('playing');
+  setTimeout(()=>document.getElementById('pet').classList.remove('playing'),700);
+  popEmoji('🎵'); if(pet.happiness>90) spawnConfetti();
+  save(); updateUI();
+}
+function sleepPet() {
+  if(pet.sleeping){pet.sleeping=false;popEmoji('☀️');}else{if(pet.energy>90){popEmoji('😐');return;}pet.sleeping=true;popEmoji('😴');}
+  save(); updateUI();
+}
+function petPet(){if(pet.sleeping)return;pet.happiness=Math.min(100,pet.happiness+8);popEmoji('💕');save();updateUI();}
+document.getElementById('petNameDisplay').addEventListener('click',()=>{
+  document.getElementById('nameInput').classList.toggle('hidden');
+  document.getElementById('nameField').value=pet.name; document.getElementById('nameField').focus();
+});
+function saveName(){const v=document.getElementById('nameField').value.trim();if(v){pet.name=v;document.getElementById('petNameDisplay').textContent=v;save();updateUI();}document.getElementById('nameInput').classList.add('hidden');}
+document.getElementById('nameField').addEventListener('keydown',e=>{if(e.key==='Enter')saveName();});
+setInterval(()=>{
+  if(!pet.sleeping){pet.hunger=Math.max(0,pet.hunger-0.25);pet.happiness=Math.max(0,pet.happiness-0.2);pet.energy=Math.max(0,pet.energy-0.15);}
+  else{pet.energy=Math.min(100,pet.energy+0.6);pet.hunger=Math.max(0,pet.hunger-0.1);}
+  pet.age+=1/60; if(pet.sleeping&&pet.energy>=100)pet.sleeping=false;
+  save(); updateUI();
+},1000);
+updateUI();
+</script>
+</body>
+</html>
