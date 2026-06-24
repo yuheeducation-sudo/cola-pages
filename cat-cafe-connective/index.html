@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>貓咖啡館 · 連接詞覆述遊戲</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:"PingFang TC","Noto Sans TC",sans-serif;
+  background:linear-gradient(180deg,#FFF8E1,#FFECB3 40%,#FFE0B2);
+  min-height:100vh;
+  display:flex;justify-content:center;align-items:center;
+  padding:20px;
+}
+.game{
+  max-width:780px;width:100%;
+  background:rgba(255,255,255,.93);
+  border-radius:24px;
+  padding:26px 22px 22px;
+  box-shadow:0 8px 36px rgba(0,0,0,.1);
+}
+.header{text-align:center;margin-bottom:10px}
+.header h1{font-size:26px;color:#5D4037}
+.header .sub{font-size:14px;color:#999}
+
+.scene{
+  background:linear-gradient(180deg,#E8D5B7,#D7C4A8 50%,#C9B896);
+  border-radius:14px;padding:14px;margin:8px 0;
+  position:relative;min-height:72px;
+  border:2px solid #BCAAA4;
+  display:flex;align-items:center;gap:6px;
+  flex-wrap:wrap;justify-content:center;
+}
+.scene-label{
+  position:absolute;top:-11px;left:18px;
+  background:#8D6E63;color:white;
+  padding:3px 14px;border-radius:12px;
+  font-size:12px;font-weight:600;
+}
+.cat-slot{
+  width:50px;height:50px;border-radius:50%;
+  border:2px dashed #BCAAA4;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;background:rgba(255,255,255,.4);
+  transition:all .4s;
+}
+.cat-slot.filled{border:2px solid #FF9800;background:rgba(255,152,0,.12)}
+.cat-slot.filled::after{content:'🐱';font-size:26px;animation:bounceIn .5s}
+
+.dad-area{display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;color:#999;margin:4px 0 6px}
+.dad-icon{font-size:26px;transition:all .3s}
+.dad-icon.happy{animation:bounce .6s}
+
+.story-box{
+  background:#FFF;border-radius:14px;
+  padding:18px 20px;margin:8px 0;
+  font-size:20px;line-height:2.2;color:#444;
+  border:1px solid #EFEBE9;min-height:60px;
+}
+.slot{
+  display:inline-block;min-width:50px;
+  border-bottom:3px dashed #FF9800;
+  color:#E65100;font-weight:700;
+  text-align:center;padding:0 8px;margin:0 2px;
+  animation:pulse 1.5s infinite;
+}
+.slot.active{border-bottom-color:#2196F3;color:#1565C0;animation:pulse .8s infinite}
+.slot.done-correct{border-bottom:3px solid #4CAF50;color:#2E7D32;animation:none}
+.slot.done-wrong{border-bottom:3px solid #F44336;color:#C62828;animation:none}
+
+.choices-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.chip{
+  padding:10px 20px;border-radius:22px;
+  border:2px solid #BCAAA4;background:white;
+  font-size:17px;font-weight:600;color:#5D4037;
+  cursor:pointer;transition:all .15s;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12);border-color:#8D6E63}
+.chip.correct{background:#A5D6A7;border-color:#4CAF50;color:#1B5E20}
+.chip.wrong{background:#EF9A9A;border-color:#F44336;color:#B71C1C}
+
+.feedback{text-align:center;font-size:17px;font-weight:700;min-height:26px;margin:4px 0}
+.fb-good{color:#4CAF50}
+.fb-try{color:#F44336}
+
+.progress{text-align:center;font-size:13px;color:#999;margin:4px 0}
+.progress-bar{height:5px;background:#EFEBE9;border-radius:3px;margin:3px 0;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#FF9800,#FFB74D);border-radius:3px;transition:width .4s}
+
+.score-row{display:flex;justify-content:center;gap:14px;margin:4px 0;font-size:14px;color:#666}
+
+.final-box{
+  display:none;background:#FFFDE7;border-radius:14px;padding:18px;
+  margin:8px 0;border:2px solid #FF9800;
+  max-height:260px;overflow-y:auto;
+}
+.final-box h3{text-align:center;color:#5D4037;font-size:16px;margin-bottom:8px}
+.final-box .connective{color:#E65100;font-weight:700}
+
+.btn-row{display:flex;gap:10px;justify-content:center;margin-top:8px}
+.btn{padding:9px 22px;border-radius:20px;border:none;font-size:14px;cursor:pointer;font-weight:600;transition:all .15s}
+.btn-reset{background:#8D6E63;color:white}
+.btn-reset:hover{background:#6D4C41}
+
+@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+@media(max-width:600px){
+  .story-box{font-size:17px;line-height:1.9}
+  .chip{font-size:15px;padding:8px 14px}
+  .game{padding:18px 12px}
+  .cat-slot{width:42px;height:42px}
+}
+</style>
+</head>
+<body>
+<div class="game">
+  <div class="header">
+    <h1>🐱 沖繩貓咖啡館</h1>
+    <p class="sub">一格一個詞，把故事接起來！</p>
+  </div>
+
+  <div class="dad-area">
+    <span class="dad-icon" id="dadIcon">🧑‍💼</span>
+    <span id="dadText">爸爸在窗外看着……</span>
+  </div>
+
+  <div class="scene">
+    <span class="scene-label">🐈 收集貓咪</span>
+    <div class="cat-slot" data-cat="1"></div><div class="cat-slot" data-cat="2"></div>
+    <div class="cat-slot" data-cat="3"></div><div class="cat-slot" data-cat="4"></div>
+    <div class="cat-slot" data-cat="5"></div><div class="cat-slot" data-cat="6"></div>
+    <div class="cat-slot" data-cat="7"></div><div class="cat-slot" data-cat="8"></div>
+  </div>
+
+  <div class="progress">
+    <span id="stepLabel">第 1 / 8 段</span>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="score-row">
+    <span>✅ <b id="correctCount">0</b></span>
+    <span>📝 <b id="totalCount">0</b></span>
+  </div>
+
+  <div class="story-box" id="storyBox"></div>
+  <div class="choices-row" id="choicesRow"></div>
+  <div class="feedback" id="feedback"></div>
+
+  <div class="final-box" id="finalBox">
+    <h3>📖 你拼出來的故事</h3>
+    <div id="fullStory"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-reset" id="resetBtn">🔄 重新來過</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Each segment: slots = array of {answer, opts} for each blank
+  var allSegments = [
+    {
+      text:"去年暑假，我們一家人去日本沖繩旅行。___沖繩的海很藍、沙很白，___我最期待的，是去 MOFF 貓咖啡館！",
+      slots:[
+        {answer:"雖然", opts:"雖然,因為,由於,即使"},
+        {answer:"但是", opts:"但是,所以,可是,而且"}
+      ]
+    },
+    {
+      text:"___，第三天下午，我們搭車來到豐崎。___爸爸一聽到「貓」這個字，臉色就有點不自然——他從小就怕貓。",
+      slots:[
+        {answer:"於是", opts:"於是,然後,首先,最後"},
+        {answer:"可是|但是", opts:"可是,但是,所以,而且"}
+      ]
+    },
+    {
+      text:"___，我們在門口脫了鞋、消毒雙手。爸爸趴在玻璃窗外，___往裏面張望——一隻橘色大肥貓走到窗邊，爸爸嚇得往後退了半步！",
+      slots:[
+        {answer:"首先", opts:"首先,接着,最後,然後"},
+        {answer:"緊張地", opts:"緊張地,開心地,慢慢地,大聲地"}
+      ]
+    },
+    {
+      text:"___，我推開門走進去——那隻橘色大肥貓正躺在門口的墊子上！___，我看到到處都是貓：黑白貓在咕嚕咕嚕、白貓在貓跳台上、三色貓在追小球。",
+      slots:[
+        {answer:"接着", opts:"接着,首先,最後,果然"},
+        {answer:"然後", opts:"然後,可是,雖然,因為"}
+      ]
+    },
+    {
+      text:"___，店員姐姐遞給我一小碗貓零食，她說：「你可以餵牠們，___要一顆一顆慢慢地給。」",
+      slots:[
+        {answer:"最後", opts:"最後,首先,接着,然後"},
+        {answer:"但是|可是", opts:"但是,所以,而且,因為"}
+      ]
+    },
+    {
+      text:"___我很想跟貓做朋友，___我選了一個靠牆的角落坐下來，把零食放在手心上，靜靜地等着。",
+      slots:[
+        {answer:"由於|因為", opts:"由於,因為,雖然,即使"},
+        {answer:"所以", opts:"所以,但是,可是,不如"}
+      ]
+    },
+    {
+      text:"___，一隻灰色的小貓小心地走過來，用鼻子碰了碰我的手指，___輕輕地把零食咬走。",
+      slots:[
+        {answer:"果然", opts:"果然,雖然,由於,最後"},
+        {answer:"然後", opts:"然後,可是,所以,但是"}
+      ]
+    },
+    {
+      text:"回家的路上，我一直想着那隻灰色小貓。___牠選擇了我，___那天下午變得特別特別。___急着去追貓，___安安靜靜地等牠來找你。",
+      slots:[
+        {answer:"因為", opts:"因為,雖然,即使,由於"},
+        {answer:"所以", opts:"所以,但是,可是,而且"},
+        {answer:"與其", opts:"與其,因為,雖然,即使"},
+        {answer:"不如", opts:"不如,所以,但是,而且"}
+      ]
+    }
+  ];
+
+  var segIdx = 0;       // which segment
+  var slotIdx = 0;      // which blank within the segment
+  var totalCorrect = 0;
+  var totalAnswered = 0;
+  var storyParts = [];
+  var working = false;
+
+  var storyBox = document.getElementById('storyBox');
+  var choicesRow = document.getElementById('choicesRow');
+  var feedbackDiv = document.getElementById('feedback');
+  var dadIcon = document.getElementById('dadIcon');
+  var dadText = document.getElementById('dadText');
+  var stepLabel = document.getElementById('stepLabel');
+  var progressFill = document.getElementById('progressFill');
+  var correctSpan = document.getElementById('correctCount');
+  var totalSpan = document.getElementById('totalCount');
+  var finalBox = document.getElementById('finalBox');
+  var fullStoryDiv = document.getElementById('fullStory');
+
+  var segAnswers = []; // accumulates answers for current segment
+
+  function render(){
+    working = false;
+    if(segIdx >= allSegments.length){ finish(); return; }
+
+    var seg = allSegments[segIdx];
+    var totalBlanks = 0;
+    for(var s=0;s<allSegments.length;s++) totalBlanks += allSegments[s].slots.length;
+    var doneBlanks = 0;
+    for(var s=0;s<segIdx;s++) doneBlanks += allSegments[s].slots.length;
+    doneBlanks += slotIdx;
+
+    stepLabel.textContent = '第 '+(segIdx+1)+' / '+allSegments.length+' 段';
+    progressFill.style.width = (doneBlanks/totalBlanks*100)+'%';
+    feedbackDiv.textContent = '';
+    feedbackDiv.className = 'feedback';
+    dadIcon.className = 'dad-icon';
+    dadText.textContent = '爸爸在窗外看着……';
+
+    // render story text with blanks, current one is active
+    var blankNum = 0;
+    var html = seg.text.replace(/___/g, function(){
+      blankNum++;
+      var cls = 'slot';
+      if(blankNum < slotIdx+1) cls += ' done-correct'; // already filled
+      else if(blankNum === slotIdx+1) cls += ' active';
+      var txt = '＿＿＿';
+      if(blankNum <= segAnswers.length) txt = segAnswers[blankNum-1];
+      return '<span class="'+cls+'" id="s'+blankNum+'">'+txt+'</span>';
+    });
+    storyBox.innerHTML = html;
+
+    // render choices for current slot
+    var slot = seg.slots[slotIdx];
+    var opts = slot.opts.split(',');
+    shuffle(opts);
+    var chipsHtml = '';
+    for(var i=0;i<opts.length;i++){
+      chipsHtml += '<button class="chip" data-word="'+opts[i]+'">'+opts[i]+'</button>';
+    }
+    choicesRow.innerHTML = chipsHtml;
+
+    var chips = choicesRow.querySelectorAll('.chip');
+    for(var j=0;j<chips.length;j++){
+      chips[j].addEventListener('click',handlePick);
+    }
+  }
+
+  function handlePick(e){
+    if(working) return;
+    working = true;
+    var chip = e.currentTarget;
+    var picked = chip.getAttribute('data-word');
+    var seg = allSegments[segIdx];
+    var slot = seg.slots[slotIdx];
+    var accepted = slot.answer.split('|');
+    var isCorrect = false;
+    for(var a=0;a<accepted.length;a++){ if(picked===accepted[a]){isCorrect=true;break;} }
+
+    var chips = choicesRow.querySelectorAll('.chip');
+    for(var i=0;i<chips.length;i++) chips[i].style.pointerEvents = 'none';
+
+    totalAnswered++;
+
+    segAnswers.push(picked);
+
+    var sEl = document.getElementById('s'+(slotIdx+1));
+    if(sEl){
+      sEl.textContent = picked;
+      sEl.className = 'slot '+(isCorrect?'done-correct':'done-wrong');
+    }
+
+    if(isCorrect){
+      totalCorrect++;
+      chip.classList.add('correct');
+      feedbackDiv.textContent = '✅ 對了！';
+      feedbackDiv.className = 'feedback fb-good';
+      dadIcon.classList.add('happy');
+      dadText.textContent = '答得好 👍';
+    } else {
+      chip.classList.add('wrong');
+      // highlight correct
+      for(var j=0;j<chips.length;j++){
+        var w = chips[j].getAttribute('data-word');
+        var ok = false;
+        for(var aa=0;aa<accepted.length;aa++){ if(w===accepted[aa]){ok=true;break;} }
+        if(ok) chips[j].classList.add('correct');
+      }
+      feedbackDiv.textContent = '❌ 正確是「'+accepted.join('」或「')+'」';
+      feedbackDiv.className = 'feedback fb-try';
+      dadText.textContent = '再想想……';
+    }
+
+    correctSpan.textContent = totalCorrect;
+    totalSpan.textContent = totalAnswered;
+
+    slotIdx++;
+
+    if(slotIdx >= seg.slots.length){
+      // segment done → fill cat, save story, advance
+      var catSlot = document.querySelector('.cat-slot[data-cat="'+(segIdx+1)+'"]');
+      if(catSlot) catSlot.classList.add('filled');
+
+      // build story piece with answers
+      var piece = seg.text;
+      for(var k=0;k<segAnswers.length;k++){
+        piece = piece.replace('___','<span class="connective">'+segAnswers[k]+'</span>');
+      }
+      storyParts.push(piece);
+      segAnswers = [];
+      segIdx++;
+      slotIdx = 0;
+    }
+
+    setTimeout(function(){
+      dadIcon.className = 'dad-icon';
+      render();
+    },1800);
+  }
+
+  function finish(){
+    progressFill.style.width = '100%';
+    stepLabel.textContent = '全部完成！🎉';
+    storyBox.innerHTML = '<p style="text-align:center;font-size:22px;color:#4CAF50">你把整個故事拼出來了！🐱</p>';
+    choicesRow.innerHTML = '';
+    feedbackDiv.textContent = '對了 '+totalCorrect+' / '+totalAnswered+' 格！爸爸終於敢走進咖啡館了～';
+    feedbackDiv.className = 'feedback fb-good';
+    dadIcon.classList.add('happy');
+    dadText.textContent = '爸爸進來了！🧑‍💼✨';
+    finalBox.style.display = 'block';
+    fullStoryDiv.innerHTML = storyParts.join('<br><br>');
+  }
+
+  function shuffle(arr){
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=arr[i];arr[i]=arr[j];arr[j]=t;
+    }
+    return arr;
+  }
+
+  document.getElementById('resetBtn').addEventListener('click',function(){
+    segIdx = 0; slotIdx = 0;
+    totalCorrect = 0; totalAnswered = 0;
+    storyParts = []; segAnswers = [];
+    correctSpan.textContent = '0'; totalSpan.textContent = '0';
+    finalBox.style.display = 'none';
+    for(var i=1;i<=8;i++){
+      var s = document.querySelector('.cat-slot[data-cat="'+i+'"]');
+      if(s) s.classList.remove('filled');
+    }
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
